@@ -1,0 +1,74 @@
+{% extends "parts/base.html" %}
+
+{% block title %} News {% endblock title %}
+
+{% block navbar_list %}
+{% include "parts/_navbar_tab2.html" %}
+{% endblock navbar_list %}
+
+
+{% block page_content %}
+{{ super() }}
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+
+<form class="form-inline" method="POST" action="/news">
+    <div class="row input-group-newsletter">
+        <div class="col">
+            <select class="form-control">
+                
+                <option value="month" selected>Month
+                <option value="Jun">06</option>
+                <option value="Jul">07</option>
+                <option value="Aug">08</option>
+                <option value="Sep">09</option>
+                <option value="Oct">10</option>
+                </option>
+                
+            </select>
+            <!-- <input class="form-control" id="testInput" name="url" style="width: 100%" type="search" placeholder="請選擇月份"> -->
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </div>
+</form>
+<div>
+
+    <table id="data" class="table table-light table-striped table-hover mt-5 table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Tag</th>
+                <th scope="col">Tittle</th>
+                <th scope="col">Content</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for col in outputs.values %}
+            <tr>
+                <td>{{ col[0].strftime('%m-%d') }}</td>
+                <td>{{ col[1] }}</td>
+                <td class="fa fa-leaf"></i><a href="{{ col[4] }}">{{ col[2] }}</a></td>
+                <td>{{ col[3][:103] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#data').DataTable();
+    });
+</script>
+<!--
+<ul class="pagination  justify-content-center mt-5">
+     use querystring to control 
+    <li class="page-item"><a class="page-link" href="/news?page={{ page-1 }}">Previous</a></li>
+    {% for p in range(1,total_pages+1 ) %}
+    <li class="page-item {{'active' if p==page else ''}}"><a class="page-link" href="/news?page={{p}}">{{ p }}</a>
+    </li>
+    {% endfor %}
+    <li class="page-item"><a class="page-link" href="/news?page={{ page+1 }}">Next</a></li>
+  </ul>
+ -->
+{% endblock page_content %}
